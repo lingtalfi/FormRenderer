@@ -286,7 +286,6 @@ class FormRenderer implements FormRendererInterface
             $hint = $this->wrapHint($hint);
         }
 
-
         if ('control' === $this->formErrorPosition && count($errors) > 0) {
             if (false === $this->displayFirstErrorOnly) {
                 $sError = $this->wrapAllControlErrors($errors);
@@ -411,14 +410,7 @@ class FormRenderer implements FormRendererInterface
 
     protected function formatCentralizedError($identifier, $errorMsg, array $controls)
     {
-        $name = $identifier;
-        if (
-            array_key_exists($identifier, $controls) &&
-            array_key_exists("label", $controls[$identifier])
-        ) {
-            $name = $controls[$identifier]["label"];
-        }
-        return "$name: " . $errorMsg;
+        return $errorMsg;
     }
 
 
