@@ -12,7 +12,7 @@ This is part of the [universe framework](https://github.com/karayabin/universe-s
 
 
 
-[![form.png](https://s19.postimg.org/9dedxxfc3/form.png)](https://postimg.org/image/mubcgspnj/)
+[![form.png](https://s19.postimg.org/j8epvmy1v/form.png)](https://postimg.org/image/wpboei8db/)
 
 
 Install
@@ -50,12 +50,6 @@ $model = [
          'htmlAttributes' => [
              'action' => "",
              'method' => "POST",
-         ],
-         'messages' => [
-             ["The item has been successfully recorded", "success"],
-             ["The item has been successfully recorded", "warning"],
-             ["The item has been successfully recorded", "info"],
-             ["The item has been successfully recorded", "error"],
          ],
          "formErrorPosition" => "control",
          "displayFirstErrorOnly" => true,
@@ -224,6 +218,10 @@ echo FormRenderer::create()->prepare($model)->render();
 History Log
 ------------------
 
+- 1.1.0 -- 2017-04-08
+
+    - removed form messages to adapt form modelization update
+    
 - 1.0.0 -- 2017-04-07
 
     - initial commit

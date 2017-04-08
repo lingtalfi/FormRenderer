@@ -15,7 +15,7 @@ class FormRenderer implements FormRendererInterface
     private $formErrorPosition;
     //
     private $formOpeningTag;
-    private $formMessages;
+//    private $formMessages;
     private $centralizedFormErrors;
     private $controls;
 
@@ -33,7 +33,7 @@ class FormRenderer implements FormRendererInterface
         <div class="widget widget-form">
             <?php
             echo $this->formOpeningTag;
-            echo $this->formMessages;
+//            echo $this->formMessages;
             echo $this->centralizedFormErrors;
             echo $this->controls;
             echo '</form>';
@@ -159,11 +159,11 @@ class FormRenderer implements FormRendererInterface
         //--------------------------------------------
         // COLLECTING FORM MESSAGES
         //--------------------------------------------
-        $sFormMessages = '';
-        if (array_key_exists('form', $model) && array_key_exists('messages', $model['form'])) {
-            $sFormMessages = $this->wrapFormMessages($model['form']['messages']);
-        }
-        $this->formMessages = $sFormMessages;
+//        $sFormMessages = '';
+//        if (array_key_exists('form', $model) && array_key_exists('messages', $model['form'])) {
+//            $sFormMessages = $this->wrapFormMessages($model['form']['messages']);
+//        }
+//        $this->formMessages = $sFormMessages;
         return $this;
     }
 
@@ -394,19 +394,19 @@ class FormRenderer implements FormRendererInterface
     }
 
 
-    protected function wrapFormMessages(array $formMessages)
-    {
-        $s = '';
-        if (count($formMessages) > 0) {
-            $s .= '<ul class="form-messages">' . PHP_EOL;
-            foreach ($formMessages as $msgInfo) {
-                list($msg, $type) = $msgInfo;
-                $s .= '<li class="form-message form-message-' . $type . '">' . $msg . '</li>' . PHP_EOL;
-            }
-            $s .= '</ul>' . PHP_EOL;
-        }
-        return $s;
-    }
+//    protected function wrapFormMessages(array $formMessages)
+//    {
+//        $s = '';
+//        if (count($formMessages) > 0) {
+//            $s .= '<ul class="form-messages">' . PHP_EOL;
+//            foreach ($formMessages as $msgInfo) {
+//                list($msg, $type) = $msgInfo;
+//                $s .= '<li class="form-message form-message-' . $type . '">' . $msg . '</li>' . PHP_EOL;
+//            }
+//            $s .= '</ul>' . PHP_EOL;
+//        }
+//        return $s;
+//    }
 
 
     protected function formatCentralizedError($identifier, $errorMsg, array $controls)
