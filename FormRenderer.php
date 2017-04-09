@@ -33,7 +33,7 @@ class FormRenderer implements FormRendererInterface
         <div class="widget widget-form">
             <?php
             echo $this->formOpeningTag;
-//            echo $this->formMessages;
+            //            echo $this->formMessages;
             echo $this->centralizedFormErrors;
             echo $this->controls;
             echo '</form>';
@@ -182,7 +182,7 @@ class FormRenderer implements FormRendererInterface
                 if (array_key_exists("type", $htmlAttributes)) {
                     $htmlType = $htmlAttributes["type"];
                 }
-                if ('text' === $htmlType || "submit" === $htmlType || 'file' === $htmlType) {
+                if ('text' === $htmlType || 'password' === $htmlType || "submit" === $htmlType || 'file' === $htmlType) {
                     $sControl = '<input' . StringTool::htmlAttributes($htmlAttributes) . '>' . PHP_EOL;
                 } elseif (
                     'checkbox' === $htmlType ||

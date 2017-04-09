@@ -218,6 +218,10 @@ echo FormRenderer::create()->prepare($model)->render();
 History Log
 ------------------
 
+- 1.3.0 -- 2017-04-09
+
+    - add input type password handling
+    
 - 1.2.0 -- 2017-04-08
 
     - fixed FormRendered error message
