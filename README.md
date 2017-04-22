@@ -218,13 +218,18 @@ echo FormRenderer::create()->prepare($model)->render();
 History Log
 ------------------
 
+- 1.4.0 -- 2017-04-22
+
+    - add DiyFormRenderer
+    - add FormRenderer.setCssClasses, FormRenderer.setCssClass and FormRenderer.setQuietControls methods 
+    
 - 1.3.0 -- 2017-04-09
 
     - add input type password handling
     
 - 1.2.0 -- 2017-04-08
 
-    - fixed FormRendered error message
+    - fixed FormRenderer error message
     
 - 1.1.0 -- 2017-04-08
 

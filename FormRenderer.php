@@ -16,9 +16,36 @@ class FormRenderer implements FormRendererInterface
     //
     private $formOpeningTag;
 //    private $formMessages;
-    private $centralizedFormErrors;
-    private $controls;
+    protected $centralizedFormErrors;
+    protected $controls;
 
+    /**
+     * Array of controls to turn down
+     * controlId => int
+     */
+    protected $quietControls;
+    /**
+     * @var array of type => css class|factory|null
+     *
+     * A factory is either a string or a callback.
+     * Look at the cssClasses in the constructor and in this class to see the parameters passed to the callables.
+     *
+     * Null means no class should be displayed
+     *
+     */
+    protected $cssClasses;
+
+
+    public function __construct()
+    {
+        $this->quietControls = [];
+        $this->cssClasses = [
+            "controlWrap" => function ($identifier, array $control) {
+                return 'control type-' . $control['type'] . ' id-' . $identifier;
+            },
+            "control" => "",
+        ];
+    }
 
     public static function create()
     {
@@ -40,6 +67,24 @@ class FormRenderer implements FormRendererInterface
             ?>
         </div>
         <?php
+    }
+
+    public function setCssClasses(array $classes)
+    {
+        $this->cssClasses = $classes;
+        return $this;
+    }
+
+    public function setCssClass($type, $class)
+    {
+        $this->cssClasses[$type] = $class;
+        return $this;
+    }
+
+    public function setQuietControls(array $controls)
+    {
+        $this->quietControls = array_flip($controls);
+        return $this;
     }
 
 
@@ -91,9 +136,29 @@ class FormRenderer implements FormRendererInterface
         //--------------------------------------------
         $controls = [];
         foreach ($model['controls'] as $identifier => $control):
-            $htmlAttributes = (array_key_exists("htmlAttributes", $control)) ? $control['htmlAttributes'] : [];
-            $sControl = $this->getControlHtml($control, $htmlAttributes);
-            $controls[$identifier] = $this->wrapControl($sControl, $control, $identifier);
+            if (false === array_key_exists($identifier, $this->quietControls)) {
+
+
+                $htmlAttributes = (array_key_exists("htmlAttributes", $control)) ? $control['htmlAttributes'] : [];
+
+
+                $classFactory = $this->cssClasses['control'];
+                $cssClass = null;
+                if (is_string($classFactory)) {
+                    $cssClass = $classFactory;
+                } elseif (is_callable($classFactory)) {
+                    $cssClass = call_user_func($classFactory, $identifier, $control);
+                }
+                if (null !== $cssClass) {
+                    $htmlAttributes['class'] = $cssClass;
+                }
+
+
+                $sControl = $this->getControlHtml($control, $htmlAttributes);
+                $controls[$identifier] = $this->wrapControl($sControl, $control, $identifier);
+            } else {
+                $controls[$identifier] = "";
+            }
         endforeach;
 
 
@@ -300,8 +365,18 @@ class FormRenderer implements FormRendererInterface
             $label = '<label>' . $label . '</label>';
         }
 
+        $classFactory = $this->cssClasses['controlWrap'];
+        $cssClass = null;
+        if (is_string($classFactory)) {
+            $cssClass = $classFactory;
+        } elseif (is_callable($classFactory)) {
+            $cssClass = call_user_func($classFactory, $identifier, $control);
+        }
+
+        $sClass = (null !== $cssClass) ? ' class="' . $cssClass . '"' : '';
+
         $ret = '
-<div class="control type-' . $control['type'] . ' id-' . $identifier . '" data-id="' . $identifier . '">
+<div' . $sClass . ' data-id="' . $identifier . '">
 ' . $hint . '
 ' . $label . '
 ' . $s . '
