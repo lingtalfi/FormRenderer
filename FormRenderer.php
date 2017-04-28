@@ -14,7 +14,7 @@ class FormRenderer implements FormRendererInterface
     private $displayFirstErrorOnly;
     private $formErrorPosition;
     //
-    private $formOpeningTag;
+    protected $formOpeningTag;
 //    private $formMessages;
     protected $centralizedFormErrors;
     protected $controls;
@@ -45,6 +45,7 @@ class FormRenderer implements FormRendererInterface
             },
             "control" => "",
         ];
+        $this->controlsIdentifier2Html = [];
     }
 
     public static function create()
@@ -135,31 +136,28 @@ class FormRenderer implements FormRendererInterface
         // CAPTURING THE CONTROLS
         //--------------------------------------------
         $controls = [];
-        foreach ($model['controls'] as $identifier => $control):
-            if (false === array_key_exists($identifier, $this->quietControls)) {
+        foreach ($model['controls'] as $identifier => $control){
 
 
-                $htmlAttributes = (array_key_exists("htmlAttributes", $control)) ? $control['htmlAttributes'] : [];
+            $htmlAttributes = (array_key_exists("htmlAttributes", $control)) ? $control['htmlAttributes'] : [];
 
 
-                $classFactory = $this->cssClasses['control'];
-                $cssClass = null;
-                if (is_string($classFactory)) {
-                    $cssClass = $classFactory;
-                } elseif (is_callable($classFactory)) {
-                    $cssClass = call_user_func($classFactory, $identifier, $control);
-                }
-                if (null !== $cssClass) {
-                    $htmlAttributes['class'] = $cssClass;
-                }
-
-
-                $sControl = $this->getControlHtml($control, $htmlAttributes);
-                $controls[$identifier] = $this->wrapControl($sControl, $control, $identifier);
-            } else {
-                $controls[$identifier] = "";
+            $classFactory = $this->cssClasses['control'];
+            $cssClass = null;
+            if (is_string($classFactory)) {
+                $cssClass = $classFactory;
+            } elseif (is_callable($classFactory)) {
+                $cssClass = call_user_func($classFactory, $identifier, $control);
             }
-        endforeach;
+            if (null !== $cssClass) {
+                $htmlAttributes['class'] = $cssClass;
+            }
+
+
+            $sControl = $this->getControlHtml($control, $htmlAttributes);
+            $controls[$identifier] = $this->wrapControl($sControl, $control, $identifier);
+        }
+        $this->onControlsReady($controls);
 
 
         //--------------------------------------------
@@ -210,6 +208,11 @@ class FormRenderer implements FormRendererInterface
             $allControls = array_keys($controls);
         }
         foreach ($allControls as $identifier) {
+
+            if (array_key_exists($identifier, $this->quietControls)) {
+                continue;
+            }
+
             if (array_key_exists($identifier, $allGroups)) {
                 $sAllControls .= $allGroups[$identifier];
             } elseif (array_key_exists($identifier, $controls)) {
@@ -230,6 +233,10 @@ class FormRenderer implements FormRendererInterface
 //        }
 //        $this->formMessages = $sFormMessages;
         return $this;
+    }
+
+    protected function onControlsReady(array $controls){
+
     }
 
 
