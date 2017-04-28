@@ -374,7 +374,7 @@ class FormRenderer implements FormRendererInterface
 
 
         if (null !== $label) {
-            $label = '<label>' . $label . '</label>';
+            $label = $this->getLabel($label, $identifier, $control);
         }
 
         $classFactory = $this->cssClasses['controlWrap'];
@@ -395,6 +395,12 @@ class FormRenderer implements FormRendererInterface
 ' . $sError . '
 </div>';
         return $ret;
+    }
+
+
+    protected function getLabel($label, $identifier, array $control)
+    {
+        return '<label>' . $label . '</label>';
     }
 
     protected function wrapHint($hint)

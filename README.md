@@ -218,6 +218,10 @@ echo FormRenderer::create()->prepare($model)->render();
 History Log
 ------------------
 
+- 1.5.2 -- 2017-04-28
+
+    - add protected getLabel method
+    
 - 1.5.1 -- 2017-04-28
 
     - fix htmlAttributes merges in case of conflict, at the control level
