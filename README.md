@@ -218,6 +218,10 @@ echo FormRenderer::create()->prepare($model)->render();
 History Log
 ------------------
 
+- 1.5.1 -- 2017-04-28
+
+    - fix htmlAttributes merges in case of conflict, at the control level
+    
 - 1.5.0 -- 2017-04-28
 
     - formOpeningTag is now protected instead of private

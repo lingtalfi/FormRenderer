@@ -136,7 +136,7 @@ class FormRenderer implements FormRendererInterface
         // CAPTURING THE CONTROLS
         //--------------------------------------------
         $controls = [];
-        foreach ($model['controls'] as $identifier => $control){
+        foreach ($model['controls'] as $identifier => $control) {
 
 
             $htmlAttributes = (array_key_exists("htmlAttributes", $control)) ? $control['htmlAttributes'] : [];
@@ -150,7 +150,11 @@ class FormRenderer implements FormRendererInterface
                 $cssClass = call_user_func($classFactory, $identifier, $control);
             }
             if (null !== $cssClass) {
-                $htmlAttributes['class'] = $cssClass;
+                if (!array_key_exists('class', $htmlAttributes)) {
+                    $htmlAttributes['class'] = $cssClass;
+                } else {
+                    $htmlAttributes['class'] .= " $cssClass";
+                }
             }
 
 
@@ -235,7 +239,8 @@ class FormRenderer implements FormRendererInterface
         return $this;
     }
 
-    protected function onControlsReady(array $controls){
+    protected function onControlsReady(array $controls)
+    {
 
     }
 
