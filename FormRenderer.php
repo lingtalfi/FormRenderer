@@ -158,7 +158,7 @@ class FormRenderer implements FormRendererInterface
             }
 
 
-            $sControl = $this->getControlHtml($control, $htmlAttributes);
+            $sControl = $this->getControlHtml($control, $htmlAttributes, $identifier);
             $controls[$identifier] = $this->wrapControl($sControl, $control, $identifier);
         }
         $this->onControlsReady($controls);
@@ -248,7 +248,7 @@ class FormRenderer implements FormRendererInterface
     /**
      * control: the control array as defined in the form modelization document.
      */
-    protected function getControlHtml(array $control, array $htmlAttributes)
+    protected function getControlHtml(array $control, array $htmlAttributes, $identifier)
     {
         $sControl = "";
 
@@ -299,13 +299,7 @@ class FormRenderer implements FormRendererInterface
                         }
 
 
-                        $sInput = '<input ' . StringTool::htmlAttributes($itemHtmlAttributes) . '>' . PHP_EOL;
-                        $sLabel = '<label for="' . $id . '">' . $label . '</label>' . PHP_EOL;
-                        if (true === $labelLeftSide) {
-                            $sControl .= $sLabel . $sInput;
-                        } else {
-                            $sControl .= $sInput . $sLabel;
-                        }
+                        $sControl .= $this->getTickableControlItemHtml($htmlType, $id, $label, $labelLeftSide, $itemHtmlAttributes, $control, $identifier);
                     }
 
                 } else {
@@ -346,6 +340,19 @@ class FormRenderer implements FormRendererInterface
                 break;
         }
         return $sControl;
+    }
+
+    protected function getTickableControlItemHtml($type, $id, $label, $labelLeftSide, $itemHtmlAttributes, $control, $identifier)
+    {
+        $s = '';
+        $sInput = '<input ' . StringTool::htmlAttributes($itemHtmlAttributes) . '>' . PHP_EOL;
+        $sLabel = '<label for="' . $id . '">' . $label . '</label>' . PHP_EOL;
+        if (true === $labelLeftSide) {
+            $s .= $sLabel . $sInput;
+        } else {
+            $s .= $sInput . $sLabel;
+        }
+        return $s;
     }
 
     protected function wrapControl($s, array $control, $identifier)
