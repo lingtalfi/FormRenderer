@@ -35,6 +35,13 @@ class FormRenderer implements FormRendererInterface
      */
     protected $cssClasses;
 
+    /**
+     * The form model (array).
+     *
+     * Only available after the prepare method has been called.
+     */
+    protected $model;
+
 
     public function __construct()
     {
@@ -64,6 +71,7 @@ class FormRenderer implements FormRendererInterface
             //            echo $this->formMessages;
             echo $this->centralizedFormErrors;
             echo $this->controls;
+            echo $this->renderSubmitButtonBar();
             echo '</form>';
             ?>
         </div>
@@ -91,6 +99,9 @@ class FormRenderer implements FormRendererInterface
 
     public function prepare(array $model)
     {
+        $this->model = $model;
+
+
         //--------------------------------------------
         // GENERAL FORM VARIABLES
         //--------------------------------------------
@@ -118,7 +129,7 @@ class FormRenderer implements FormRendererInterface
                 $formHtmlAttributes = $form['htmlAttributes'];
             }
         }
-        $this->formOpeningTag = '<form' . StringTool::htmlAttributes($formHtmlAttributes) . '>' . PHP_EOL;
+        $this->formOpeningTag = $this->getFormOpeningTag($formHtmlAttributes);
 
 
         //--------------------------------------------
@@ -242,6 +253,36 @@ class FormRenderer implements FormRendererInterface
     protected function onControlsReady(array $controls)
     {
 
+    }
+
+
+    protected function getFormOpeningTag(array $formHtmlAttributes)
+    {
+        return '<form' . StringTool::htmlAttributes($formHtmlAttributes) . '>' . PHP_EOL;
+    }
+
+    protected function renderSubmitButtonBar()
+    {
+        $m = $this->model;
+        $s = '';
+        if (array_key_exists('submitButtonBar', $m['form'])) {
+            $s .= $this->doRenderSubmitButtonBar($m['form']['submitButtonBar']);
+        }
+        return $s;
+    }
+
+    protected function doRenderSubmitButtonBar(array $submitButtonBar)
+    {
+        $s = '';
+        if (true === $submitButtonBar['enable']) {
+
+            $s .= '<hr>';
+            if (true === $submitButtonBar['showResetButton']) {
+                $s .= '<button type="reset">' . $submitButtonBar['textResetButton'] . '</button>';
+            }
+            $s .= '<button type="submit">' . $submitButtonBar['textSubmitButton'] . '</button>';
+        }
+        return $s;
     }
 
 

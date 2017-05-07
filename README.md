@@ -218,6 +218,10 @@ echo FormRenderer::create()->prepare($model)->render();
 History Log
 ------------------
 
+- 1.6.0 -- 2017-05-07
+
+    - add submitButtonBar handling
+    
 - 1.5.3 -- 2017-04-28
 
     - add protected getTickableControlItemHtml method
