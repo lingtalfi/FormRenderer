@@ -158,7 +158,7 @@ class FormRenderer implements FormRendererInterface
             if (is_string($classFactory)) {
                 $cssClass = $classFactory;
             } elseif (is_callable($classFactory)) {
-                $cssClass = call_user_func($classFactory, $identifier, $control);
+                $cssClass = call_user_func($classFactory, $identifier, $control, $errors);
             }
             if (null !== $cssClass) {
                 if (!array_key_exists('class', $htmlAttributes)) {
@@ -435,16 +435,20 @@ class FormRenderer implements FormRendererInterface
 
         $sClass = (null !== $cssClass) ? ' class="' . $cssClass . '"' : '';
 
-        $ret = '
-<div' . $sClass . ' data-id="' . $identifier . '">
-' . $hint . '
-' . $label . '
-' . $s . '
-' . $sError . '
-</div>';
+        $ret = $this->doWrapControl($sClass, $identifier, $s, $hint, $label, $sError);
         return $ret;
     }
 
+    protected function doWrapControl($sClass, $identifier, $controlHtml, $hint, $label, $error)
+    {
+        return '
+<div' . $sClass . ' data-id="' . $identifier . '">
+' . $hint . '
+' . $label . '
+' . $controlHtml . '
+' . $error . '
+</div>';
+    }
 
     protected function getLabel($label, $identifier, array $control)
     {
