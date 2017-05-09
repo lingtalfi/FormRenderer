@@ -300,7 +300,7 @@ class FormRenderer implements FormRendererInterface
                 if (array_key_exists("type", $htmlAttributes)) {
                     $htmlType = $htmlAttributes["type"];
                 }
-                if ('text' === $htmlType || 'password' === $htmlType || "submit" === $htmlType || 'file' === $htmlType) {
+                if ('text' === $htmlType || 'hidden' === $htmlType || 'password' === $htmlType || "submit" === $htmlType || 'file' === $htmlType) {
                     $sControl = '<input' . StringTool::htmlAttributes($htmlAttributes) . '>' . PHP_EOL;
                 } elseif (
                     'checkbox' === $htmlType ||
@@ -398,7 +398,13 @@ class FormRenderer implements FormRendererInterface
 
     protected function wrapControl($s, array $control, $identifier)
     {
-
+        if (
+            array_key_exists('type', $control) && 'input' === $control['type'] &&
+            array_key_exists('htmlAttributes', $control) && array_key_exists('type', $control['htmlAttributes'])
+            && 'hidden' === $control['htmlAttributes']['type']
+        ) {
+            return $s;
+        }
 
         $hint = array_key_exists('hint', $control) ? $control['hint'] : null;
         $label = array_key_exists('label', $control) ? $control['label'] : null;
@@ -434,7 +440,6 @@ class FormRenderer implements FormRendererInterface
         }
 
         $sClass = (null !== $cssClass) ? ' class="' . $cssClass . '"' : '';
-
         $ret = $this->doWrapControl($sClass, $identifier, $s, $hint, $label, $sError);
         return $ret;
     }

@@ -218,6 +218,10 @@ echo FormRenderer::create()->prepare($model)->render();
 History Log
 ------------------
 
+- 1.7.0 -- 2017-05-09
+
+    - add hidden handling
+    
 - 1.6.0 -- 2017-05-07
 
     - add submitButtonBar handling
