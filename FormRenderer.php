@@ -362,6 +362,9 @@ class FormRenderer implements FormRendererInterface
                     }
                 } else {
                     $values = (array_key_exists("value", $control)) ? $control['value'] : [];
+                    if (null === $values) {
+                        $values = [];
+                    }
                     foreach ($items as $value => $label) {
                         $s = (in_array($value, $values, true)) ? ' selected="selected"' : "";
                         $sControl .= '<option' . $s . ' value="' . htmlspecialchars($value) . '">' . $label . '</option>' . PHP_EOL;

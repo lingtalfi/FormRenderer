@@ -218,6 +218,10 @@ echo FormRenderer::create()->prepare($model)->render();
 History Log
 ------------------
 
+- 1.7.1 -- 2017-05-10
+
+    - fix FormRenderer select multiple values=null
+    
 - 1.7.0 -- 2017-05-09
 
     - add hidden handling
