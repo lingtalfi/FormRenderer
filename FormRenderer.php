@@ -357,7 +357,7 @@ class FormRenderer implements FormRendererInterface
                 if (false === $isMultiple) {
                     $val = (array_key_exists("value", $control)) ? $control['value'] : "";
                     foreach ($items as $value => $label) {
-                        $s = ($val === $value) ? ' selected="selected"' : "";
+                        $s = ((string)$val === (string)$value) ? ' selected="selected"' : "";
                         $sControl .= '<option' . $s . ' value="' . htmlspecialchars($value) . '">' . $label . '</option>' . PHP_EOL;
                     }
                 } else {

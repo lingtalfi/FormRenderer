@@ -218,6 +218,10 @@ echo FormRenderer::create()->prepare($model)->render();
 History Log
 ------------------
 
+- 1.7.2 -- 2017-05-19
+
+    - fix FormRenderer select value type
+    
 - 1.7.1 -- 2017-05-10
 
     - fix FormRenderer select multiple values=null
