@@ -19,7 +19,7 @@ Install
 ==========
 Using the [uni](https://github.com/lingtalfi/universe-naive-importer) command.
 ```bash
-uni import FormRenderer
+uni import Ling/FormRenderer
 ```
 
 Or just download it and place it where you want otherwise.
@@ -43,7 +43,7 @@ Then, you can just use the following example snippet as a starting point:
 <?php
 
 
-use FormRenderer\FormRenderer;
+use Ling\FormRenderer\FormRenderer;
 
 $model = [
      'form' => [

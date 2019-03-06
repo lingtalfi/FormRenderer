@@ -1,7 +1,7 @@
 <?php
 
 
-namespace FormRenderer;
+namespace Ling\FormRenderer;
 
 /**
  * suggestion:

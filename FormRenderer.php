@@ -1,9 +1,9 @@
 <?php
 
 
-namespace FormRenderer;
+namespace Ling\FormRenderer;
 
-use Bat\StringTool;
+use Ling\Bat\StringTool;
 
 /**
  * Implements this model: https://github.com/lingtalfi/form-modelization
